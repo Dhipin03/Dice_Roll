@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:dice_app/controller/dice_roll_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DiceRoll extends StatefulWidget {
   const DiceRoll({super.key});
@@ -10,16 +12,6 @@ class DiceRoll extends StatefulWidget {
 }
 
 class _DiceRollState extends State<DiceRoll> {
-  String img = "assets/images/d1.jpg";
-  Random random = Random();
-  List dice = [
-    "assets/images/d1.jpg",
-    "assets/images/d2.png",
-    "assets/images/d3.png",
-    "assets/images/d4.png",
-    "assets/images/d5.png",
-    "assets/images/d6.png"
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +20,8 @@ class _DiceRollState extends State<DiceRoll> {
         children: [
           Padding(
             padding: const EdgeInsets.all(88.0),
-            child: Image(image: AssetImage(img)),
+            child: Image(
+                image: AssetImage(context.watch<DiceRollController>().img)),
           ),
           ElevatedButton(
             style: ButtonStyle(
@@ -37,10 +30,7 @@ class _DiceRollState extends State<DiceRoll> {
                 foregroundColor:
                     WidgetStatePropertyAll(Colors.yellow.shade800)),
             onPressed: () {
-              setState(() {
-                int rand = random.nextInt(dice.length);
-                img = dice[rand];
-              });
+              context.read<DiceRollController>().rolldice();
             },
             child: Text(
               "Roll Dice",
